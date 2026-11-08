@@ -1,0 +1,309 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+
+\newcommand{\axF}[1]{\hyperref[ax:F#1]{F#1}}
+\newcommand{\axO}[1]{\hyperref[ax:O#1]{O#1}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{The Shortest Path Between Two Points Is a Straight Line, Over Any Ordered Field}
+\author{Ammar Nagri\\ \small Supreme Leader of All}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+Let $\mathbb{F}$ be any number system satisfying the axioms of an ordered field. We prove that in $\mathbb{F}^n$, a path made of straight steps from $\mathbf{a}$ to $\mathbf{b}$ is never shorter than the straight line from $\mathbf{a}$ to $\mathbf{b}$, and is exactly as short only if it is that straight line.
+\end{abstract}
+
+\section{Introduction}
+
+It is well known that the shortest path between two points of $\mathbb{R}^n$ is a straight line. The usual proofs rely on special properties of the real numbers, such as the existence of square roots. This is an abstracted version in which we work over an arbitrary \emph{ordered field} $\mathbb{F}$, that is, any set satisfying the axioms of Section~\ref{sec:axioms}.
+
+Two difficulties arise in this generality.
+
+First, the length $\sqrt{x_1^2 + \cdots + x_n^2}$ of a vector need not exist in $\mathbb{F}$. For example, in $\mathbb{Q}^2$ the vector $(1,1)$ would have length $\sqrt{2} \notin \mathbb{Q}$. We require lengths to lie in $\mathbb{F}$ itself, so we say that a vector \emph{has a length} only when this square root exists in $\mathbb{F}$ (Definition~\ref{def:length}). This is not the same as having length $0$: only $\mathbf{0}$ has length $0$.
+
+Second, we cannot speak of the length of a general curve. In $\mathbb{R}^n$ that length is defined as the smallest number that is at least the length of every polygon drawn along the curve. In a general ordered field such a smallest number need not exist: in $\mathbb{Q}$, no rational number is the smallest upper bound of $\{x : x^2 < 2\}$. We therefore consider only paths made of finitely many straight steps, whose length is a finite sum.
+
+Measuring lengths in $\mathbb{F}$ rather than in $\mathbb{R}$ shows that the result depends only on the axioms of an ordered field. It therefore holds wherever only certain numbers are available, for example in geometry with ruler and compass, or in a computer doing exact arithmetic with fractions.
+
+The key step is the Cauchy--Schwarz inequality $\mathbf{x} \cdot \mathbf{y} \leq |\mathbf{x}|\,|\mathbf{y}|$, which we prove without taking square roots (Lemma~\ref{lem:cs}). Applying it to every pair of steps of a path gives the main result (Theorem~\ref{thm:main}). Finally, Proposition~\ref{prop:noshortest} shows that when the straight line has no length in $\mathbb{F}$, there may be no shortest path at all.
+
+\section{Axioms}\label{sec:axioms}
+
+An \emph{ordered field} is a set $\mathbb{F}$ with an addition $+$, a multiplication $\cdot$, and a relation $<$, satisfying the following axioms.
+
+\subsection{Field Axioms}
+
+\begin{enumerate}
+    \item[F1.] \label{ax:F1} \textbf{Associativity.} For all $a, b, c \in \mathbb{F}$: $(a + b) + c = a + (b + c)$ and $(a b) c = a (b c)$.
+    \item[F2.] \label{ax:F2} \textbf{Commutativity.} For all $a, b \in \mathbb{F}$: $a + b = b + a$ and $a b = b a$.
+    \item[F3.] \label{ax:F3} \textbf{Identities.} There are elements $0 \neq 1$ of $\mathbb{F}$ such that $a + 0 = a$ and $a \cdot 1 = a$ for all $a \in \mathbb{F}$.
+    \item[F4.] \label{ax:F4} \textbf{Inverses.} Every $a \in \mathbb{F}$ has a negative $-a$ with $a + (-a) = 0$, and every $a \neq 0$ has a reciprocal $a^{-1}$ with $a a^{-1} = 1$.
+    \item[F5.] \label{ax:F5} \textbf{Distributivity.} For all $a, b, c \in \mathbb{F}$: $a (b + c) = a b + a c$.
+\end{enumerate}
+
+\subsection{Order Axioms}
+
+\begin{enumerate}
+    \item[O1.] \label{ax:O1} \textbf{Trichotomy.} For all $a, b \in \mathbb{F}$, exactly one of $a < b$, $a = b$, $b < a$ holds.
+    \item[O2.] \label{ax:O2} \textbf{Translation invariance.} For all $a, b, c \in \mathbb{F}$: if $a < b$, then $a + c < b + c$.
+    \item[O3.] \label{ax:O3} \textbf{Multiplication by positives.} For all $a, b, c \in \mathbb{F}$: if $a < b$ and $0 < c$, then $a c < b c$.
+    \item[O4.] \label{ax:O4} \textbf{Transitivity.} For all $a, b, c \in \mathbb{F}$: if $a < b$ and $b < c$, then $a < c$.
+\end{enumerate}
+
+\paragraph{Notation.} We write $a - b$ for $a + (-b)$, $x^2$ for $x x$, and $2$ for $1 + 1$. We write $b > a$ to mean $a < b$, and $a \leq b$ to mean ``$a < b$ or $a = b$''. A number $a$ is \emph{positive} if $a > 0$ and \emph{non-negative} if $a \geq 0$.
+
+\section{Arithmetic}
+
+This section uses only \axF{1}--\axF{5}.
+
+\begin{proposition}[Multiplying by zero]\label{prop:zero}
+For all $x \in \mathbb{F}$, $0 \cdot x = x \cdot 0 = 0$.
+\end{proposition}
+\begin{proof}
+By \axF{3} and \axF{5}, $x \cdot 0 = x (0 + 0) = x \cdot 0 + x \cdot 0$. Adding $-(x \cdot 0)$ to both sides and using \axF{1}, \axF{4}, \axF{3} gives $0 = x \cdot 0$. Finally, $0 \cdot x = x \cdot 0$ by \axF{2}.
+\end{proof}
+
+\begin{proposition}[Negatives are unique]\label{prop:unique}
+If $a + b = 0$ and $a + b' = 0$, then $b = b'$.
+\end{proposition}
+\begin{proof}
+$b = b + 0 = b + (a + b') = (b + a) + b' = (a + b) + b' = 0 + b' = b'$, using \axF{3}, \axF{1}, \axF{2}.
+\end{proof}
+
+\begin{proposition}[Minus signs]\label{prop:neg}
+For all $x \in \mathbb{F}$: $-x = (-1)x$, $(-1)(-1) = 1$, and $(-x)^2 = x^2$.
+\end{proposition}
+\begin{proof}
+$x + (-1)x = 1 \cdot x + (-1)x = \bigl(1 + (-1)\bigr)x = 0 \cdot x = 0$, by \axF{2}, \axF{3}, \axF{5}, \axF{4} and Proposition~\ref{prop:zero}. Hence $(-1)x$ is a negative of $x$, so $(-1)x = -x$ by Proposition~\ref{prop:unique}. Taking $x = -1$ gives $(-1)(-1) = -(-1)$. Since $(-1) + 1 = 0$, Proposition~\ref{prop:unique} gives $-(-1) = 1$. Finally, $(-x)^2 = (-1)x(-1)x = (-1)(-1)x^2 = x^2$ by \axF{1} and \axF{2}.
+\end{proof}
+
+\begin{proposition}[A product is zero only if a factor is zero]\label{prop:nzd}
+If $x y = 0$, then $x = 0$ or $y = 0$.
+\end{proposition}
+\begin{proof}
+Suppose $x \neq 0$. Then $y = 1 \cdot y = (x^{-1} x) y = x^{-1}(x y) = x^{-1} \cdot 0 = 0$, by \axF{3}, \axF{4}, \axF{1} and Proposition~\ref{prop:zero}.
+\end{proof}
+
+\section{Inequalities}
+
+From now on we use all the axioms.
+
+\begin{lemma}[Squares are positive]\label{lem:keystone}
+If $x \neq 0$, then $x^2 > 0$.
+\end{lemma}
+\begin{proof}
+By \axO{1}, either $x > 0$ or $x < 0$. If $x > 0$, apply \axO{3} to $0 < x$ with $c = x$: $0 \cdot x < x \cdot x$, that is, $0 < x^2$. If $x < 0$, add $-x$ to both sides (\axO{2}) to get $0 < -x$. The first case then gives $(-x)^2 > 0$, and $(-x)^2 = x^2$ by Proposition~\ref{prop:neg}.
+\end{proof}
+
+\begin{lemma}[Working with inequalities]\label{lem:order}
+For all $a, b, c \in \mathbb{F}$:
+\begin{enumerate}
+    \item[(a)] $a < b$ \textbf{iff} $0 < b - a$.
+    \item[(b)] $1 > 0$.
+    \item[(c)] If $a, b \geq 0$, then $a + b \geq 0$; if moreover $a > 0$ or $b > 0$, then $a + b > 0$. Consequently, $a + b = 0$ only when $a = b = 0$. The same holds, by induction, for any finite sum of non-negative numbers. In particular, $2 > 0$.
+    \item[(d)] If $a, b \geq 0$, then $a b \geq 0$; if $a, b > 0$, then $a b > 0$.
+    \item[(e)] If $c > 0$, then $c^{-1} > 0$.
+    \item[(f)] If $0 \leq a < b$, then $a^2 < b^2$. Consequently, if $a, b \geq 0$ and $a^2 < b^2$, then $a < b$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(a) If $a < b$, add $-a$ to both sides (\axO{2}) to get $0 < b - a$. Conversely, if $0 < b - a$, add $a$ to get $a < b$.
+
+(b) $1 \neq 0$ by \axF{3}, so $1 = 1^2 > 0$ by Lemma~\ref{lem:keystone}.
+
+(c) Suppose $a > 0$ and $b \geq 0$. Adding $b$ to $0 < a$ gives $b < a + b$ (\axO{2}). If $b = 0$, this says $0 < a + b$. If $b > 0$, then $0 < b < a + b$, so $0 < a + b$ by \axO{4}. The case $b > 0$, $a \geq 0$ is the same with $a$ and $b$ exchanged (\axF{2}). If $a = b = 0$, then $a + b = 0$. The statement for finite sums follows by induction, since $a_1 + \cdots + a_m = (a_1 + \cdots + a_{m-1}) + a_m$. Finally, $2 = 1 + 1 > 0$ by (b).
+
+(d) If $a = 0$ or $b = 0$, then $a b = 0$ (Proposition~\ref{prop:zero}). If $a, b > 0$, apply \axO{3} to $0 < a$ with $c = b$: $0 = 0 \cdot b < a b$.
+
+(e) $c^{-1} \neq 0$, since otherwise $1 = c c^{-1} = 0$, contradicting \axF{3}. If $c^{-1} < 0$, then \axO{3} with the positive number $c$ gives $1 = c^{-1} c < 0 \cdot c = 0$, contradicting (b) by \axO{1}. Hence $c^{-1} > 0$.
+
+(f) First, $b > 0$ (directly if $a = 0$, and by \axO{4} if $a > 0$). Applying \axO{3} to $a < b$ with $c = b$ gives $a b < b^2$. If $a = 0$, then $a^2 = 0 = a b$. If $a > 0$, applying \axO{3} to $a < b$ with $c = a$ gives $a^2 < a b$. In either case $a^2 \leq a b < b^2$, so $a^2 < b^2$ by \axO{4}. For the second statement, suppose $a, b \geq 0$ and $a^2 < b^2$. If $a = b$, then $a^2 = b^2$; if $b < a$, then $b^2 < a^2$ by the first statement. Both contradict \axO{1}, so $a < b$.
+\end{proof}
+
+\begin{definition}[Squared length]\label{def:norm}
+For $\mathbf{x} = (x_1, \dots, x_n) \in \mathbb{F}^n$, the \emph{squared length} of $\mathbf{x}$ is $\|\mathbf{x}\|^2 = x_1^2 + \cdots + x_n^2$. The symbol $\|\mathbf{x}\|^2$ is read as a whole; we do not define $\|\mathbf{x}\|$ by itself.
+\end{definition}
+
+\begin{lemma}\label{lem:norm}
+For every $\mathbf{x} \in \mathbb{F}^n$, $\|\mathbf{x}\|^2 \geq 0$, with equality \textbf{iff} $\mathbf{x} = \mathbf{0}$.
+\end{lemma}
+\begin{proof}
+Each $x_i^2$ is $0$ if $x_i = 0$, and positive otherwise (Lemma~\ref{lem:keystone}). By Lemma~\ref{lem:order}(c), the sum is non-negative, and it is zero exactly when every $x_i^2$ is zero, that is, when every $x_i$ is zero.
+\end{proof}
+
+\section{Lengths and the Cauchy--Schwarz Inequality}\label{sec:lengths}
+
+\begin{definition}[Dot product]
+For $\mathbf{x}, \mathbf{y} \in \mathbb{F}^n$, let $\mathbf{x} \cdot \mathbf{y} = x_1 y_1 + \cdots + x_n y_n$.
+\end{definition}
+
+By \axF{1}, \axF{2}, \axF{5}, the dot product satisfies $\mathbf{x} \cdot \mathbf{y} = \mathbf{y} \cdot \mathbf{x}$, $(c\mathbf{x}) \cdot \mathbf{y} = c(\mathbf{x} \cdot \mathbf{y})$ and $(\mathbf{x} + \mathbf{x}') \cdot \mathbf{y} = \mathbf{x} \cdot \mathbf{y} + \mathbf{x}' \cdot \mathbf{y}$. Also, $\mathbf{x} \cdot \mathbf{x} = \|\mathbf{x}\|^2$. Expanding brackets, for any $\mathbf{v}_1, \dots, \mathbf{v}_k \in \mathbb{F}^n$,
+\begin{equation}\label{eq:expand}
+    \Bigl\| \sum_{i=1}^{k} \mathbf{v}_i \Bigr\|^2 = \sum_{i=1}^{k} \sum_{j=1}^{k} \mathbf{v}_i \cdot \mathbf{v}_j.
+\end{equation}
+
+\begin{definition}[Length]\label{def:length}
+An element $\ell \in \mathbb{F}$ is a \emph{length} of $\mathbf{x} \in \mathbb{F}^n$ if $\ell \geq 0$ and $\ell^2 = \|\mathbf{x}\|^2$.
+\end{definition}
+
+For example, in $\mathbb{Q}^2$ the vector $(3,4)$ has length $5$, while $(1,1)$ has no length in $\mathbb{Q}$, since no rational number squares to $2$ (see the proof of Proposition~\ref{prop:noshortest}). In $\mathbb{R}^n$ every vector has a length.
+
+\begin{lemma}[Lengths are unique and scale]\label{lem:length}
+A vector $\mathbf{x}$ has at most one length, which we denote by $|\mathbf{x}|$. If $|\mathbf{x}|$ exists, then:
+\begin{enumerate}
+    \item[(a)] $|\mathbf{x}| = 0$ \textbf{iff} $\mathbf{x} = \mathbf{0}$;
+    \item[(b)] for every $c \geq 0$, the vector $c\mathbf{x}$ has a length, and $|c\mathbf{x}| = c\,|\mathbf{x}|$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Let $\ell$ and $m$ be lengths of $\mathbf{x}$. Then $(\ell - m)(\ell + m) = \ell^2 - m^2 = 0$, by \axF{5}, \axF{2} and Proposition~\ref{prop:neg}. By Proposition~\ref{prop:nzd}, $\ell - m = 0$ or $\ell + m = 0$. In the second case $\ell = m = 0$ by Lemma~\ref{lem:order}(c). Either way, $\ell = m$.
+
+(a) By Proposition~\ref{prop:nzd}, $|\mathbf{x}| = 0$ \textbf{iff} $|\mathbf{x}|^2 = 0$, that is, $\|\mathbf{x}\|^2 = 0$. By Lemma~\ref{lem:norm}, this holds \textbf{iff} $\mathbf{x} = \mathbf{0}$.
+
+(b) $c\,|\mathbf{x}| \geq 0$ by Lemma~\ref{lem:order}(d), and $(c\,|\mathbf{x}|)^2 = c^2 \|\mathbf{x}\|^2 = \|c\mathbf{x}\|^2$.
+\end{proof}
+
+\begin{lemma}[Cauchy--Schwarz inequality]\label{lem:cs}
+If $\mathbf{x}, \mathbf{y} \in \mathbb{F}^n$ have lengths $\alpha = |\mathbf{x}|$ and $\beta = |\mathbf{y}|$, then
+\begin{equation}
+    \mathbf{x} \cdot \mathbf{y} \leq \alpha \beta,
+\end{equation}
+with equality \textbf{iff} $\beta \mathbf{x} = \alpha \mathbf{y}$.
+\end{lemma}
+\begin{proof}
+If $\alpha = 0$, then $\mathbf{x} = \mathbf{0}$ by Lemma~\ref{lem:length}(a). In that case $\mathbf{x} \cdot \mathbf{y} = 0 = \alpha\beta$ and $\beta \mathbf{x} = \mathbf{0} = \alpha \mathbf{y}$, so the claim holds. The case $\beta = 0$ is the same. Now suppose $\alpha, \beta > 0$. Expanding, and using $\|\mathbf{x}\|^2 = \alpha^2$ and $\|\mathbf{y}\|^2 = \beta^2$,
+\begin{equation}
+    \|\beta \mathbf{x} - \alpha \mathbf{y}\|^2
+    = \beta^2 \alpha^2 - 2\alpha\beta \, (\mathbf{x} \cdot \mathbf{y}) + \alpha^2 \beta^2
+    = 2\alpha\beta \bigl(\alpha\beta - \mathbf{x} \cdot \mathbf{y}\bigr).
+\end{equation}
+Now $2\alpha\beta > 0$ by Lemma~\ref{lem:order}(c),(d), so $(2\alpha\beta)^{-1} > 0$ by Lemma~\ref{lem:order}(e). Hence
+\begin{equation}
+    \alpha\beta - \mathbf{x} \cdot \mathbf{y} = (2\alpha\beta)^{-1} \, \|\beta \mathbf{x} - \alpha \mathbf{y}\|^2 \geq 0
+\end{equation}
+by Lemma~\ref{lem:order}(d) and Lemma~\ref{lem:norm}, and so $\mathbf{x} \cdot \mathbf{y} \leq \alpha\beta$ by Lemma~\ref{lem:order}(a). Equality holds \textbf{iff} $\|\beta \mathbf{x} - \alpha \mathbf{y}\|^2 = 0$ (Proposition~\ref{prop:nzd}), that is, \textbf{iff} $\beta \mathbf{x} = \alpha \mathbf{y}$ (Lemma~\ref{lem:norm}).
+\end{proof}
+
+The usual proof of this inequality divides by $|\mathbf{x}|$ and $|\mathbf{y}|$ and takes square roots. The proof above only multiplies by lengths that are assumed to exist.
+
+\section{The Main Theorem}
+
+\begin{definition}[Paths]\label{def:path}
+Let $\mathbf{a}, \mathbf{b} \in \mathbb{F}^n$.
+\begin{itemize}
+    \item A \emph{path} from $\mathbf{a}$ to $\mathbf{b}$ is a finite list of points $P = (\mathbf{p}_0, \mathbf{p}_1, \dots, \mathbf{p}_k)$ with $k \geq 1$, $\mathbf{p}_0 = \mathbf{a}$ and $\mathbf{p}_k = \mathbf{b}$. We think of it as travelling in a straight line from each point to the next.
+    \item Its \emph{steps} are the vectors $\mathbf{v}_i = \mathbf{p}_i - \mathbf{p}_{i-1}$ for $1 \leq i \leq k$.
+    \item If every step has a length $\ell_i = |\mathbf{v}_i|$, we say that $P$ \emph{has a length}, namely $L(P) = \ell_1 + \cdots + \ell_k$.
+    \item A point $\mathbf{p}_i$ with $0 < i < k$ is \emph{redundant} if it lies on the line segment between its neighbours, that is, $\mathbf{p}_i = \mathbf{p}_{i-1} + \mu (\mathbf{p}_{i+1} - \mathbf{p}_{i-1})$ for some $0 \leq \mu \leq 1$.
+\end{itemize}
+\end{definition}
+
+A redundant point is one at which the path does not turn: it merely marks a point passed through on the way from $\mathbf{p}_{i-1}$ to $\mathbf{p}_{i+1}$. The cases $\mu = 0$ and $\mu = 1$ also cover a step of zero length. Deleting a redundant point does not change the route travelled. So the straight line from $\mathbf{a}$ to $\mathbf{b}$ is the one-step path $(\mathbf{a}, \mathbf{b})$, together with the paths obtained from it by inserting redundant points.
+
+\begin{theorem}[Main theorem]\label{thm:main}
+Let $P$ be a path from $\mathbf{a}$ to $\mathbf{b}$ which has a length $L = L(P)$. Then:
+\begin{enumerate}
+    \item[(i)] $L^2 \geq \|\mathbf{b} - \mathbf{a}\|^2$. If $\mathbf{b} - \mathbf{a}$ has a length in $\mathbb{F}$, then $L \geq |\mathbf{b} - \mathbf{a}|$.
+    \item[(ii)] If $P$ has no redundant points, then $L^2 = \|\mathbf{b} - \mathbf{a}\|^2$ \textbf{iff} $P = (\mathbf{a}, \mathbf{b})$.
+\end{enumerate}
+Consequently, if $\mathbf{b} - \mathbf{a}$ has a length in $\mathbb{F}$, then the straight line $(\mathbf{a}, \mathbf{b})$ has length $|\mathbf{b} - \mathbf{a}|$, and every other path from $\mathbf{a}$ to $\mathbf{b}$ that has a length and no redundant points is strictly longer.
+\end{theorem}
+\begin{proof}
+(i) In the sum $\mathbf{v}_1 + \cdots + \mathbf{v}_k$ the intermediate points cancel, leaving $\mathbf{p}_k - \mathbf{p}_0 = \mathbf{b} - \mathbf{a}$. So by \eqref{eq:expand}, and by expanding $L^2 = (\ell_1 + \cdots + \ell_k)^2$ using \axF{5},
+\begin{equation}\label{eq:gap}
+    L^2 - \|\mathbf{b} - \mathbf{a}\|^2
+    = \sum_{i,j} \ell_i \ell_j - \sum_{i,j} \mathbf{v}_i \cdot \mathbf{v}_j
+    = \sum_{i,j} \bigl(\ell_i \ell_j - \mathbf{v}_i \cdot \mathbf{v}_j\bigr).
+\end{equation}
+Each bracket is non-negative by Lemma~\ref{lem:cs} and Lemma~\ref{lem:order}(a), so the whole sum is non-negative by Lemma~\ref{lem:order}(c). This proves $L^2 \geq \|\mathbf{b} - \mathbf{a}\|^2$.
+
+Now suppose $d = |\mathbf{b} - \mathbf{a}|$ exists. We have $L \geq 0$ by Lemma~\ref{lem:order}(c). If $L < d$, then Lemma~\ref{lem:order}(f) would give $L^2 < d^2 = \|\mathbf{b} - \mathbf{a}\|^2$, contradicting what we have just proved. Hence $L \geq d$.
+
+(ii) ($\Leftarrow$) If $P = (\mathbf{a}, \mathbf{b})$, its only step is $\mathbf{b} - \mathbf{a}$, so $L = |\mathbf{b} - \mathbf{a}|$ and $L^2 = \|\mathbf{b} - \mathbf{a}\|^2$.
+
+($\Rightarrow$) Suppose $L^2 = \|\mathbf{b} - \mathbf{a}\|^2$, and suppose for contradiction that $k \geq 2$. The sum in \eqref{eq:gap} is zero and all its terms are non-negative, so every term is zero (Lemma~\ref{lem:order}(c)). By the equality case of Lemma~\ref{lem:cs}, $\ell_j \mathbf{v}_i = \ell_i \mathbf{v}_j$ for all $i, j$; in particular $\ell_1 \mathbf{v}_2 = \ell_2 \mathbf{v}_1$. We show that $\mathbf{p}_1$ is redundant.
+\begin{itemize}
+    \item If $\ell_1 = 0$, then $\mathbf{v}_1 = \mathbf{0}$ (Lemma~\ref{lem:length}(a)), so $\mathbf{p}_1 = \mathbf{p}_0$: take $\mu = 0$.
+    \item If $\ell_2 = 0$, then $\mathbf{v}_2 = \mathbf{0}$, so $\mathbf{p}_1 = \mathbf{p}_2$: take $\mu = 1$.
+    \item Otherwise $\ell_1, \ell_2 > 0$. Let $s = \ell_1 + \ell_2 > 0$ and $\mu = \ell_1 s^{-1}$. Then
+    \begin{equation}
+        \ell_1 (\mathbf{p}_2 - \mathbf{p}_0) = \ell_1 \mathbf{v}_1 + \ell_1 \mathbf{v}_2 = \ell_1 \mathbf{v}_1 + \ell_2 \mathbf{v}_1 = s \mathbf{v}_1,
+    \end{equation}
+    so $\mathbf{v}_1 = \mu (\mathbf{p}_2 - \mathbf{p}_0)$, that is, $\mathbf{p}_1 = \mathbf{p}_0 + \mu (\mathbf{p}_2 - \mathbf{p}_0)$. Here $\mu > 0$ by Lemma~\ref{lem:order}(d),(e). Also $\ell_1 < s$ (add $\ell_1$ to $0 < \ell_2$, \axO{2}), and multiplying by $s^{-1} > 0$ gives $\mu < 1$ (\axO{3}).
+\end{itemize}
+This contradicts the assumption that $P$ has no redundant points. Hence $k = 1$, that is, $P = (\mathbf{a}, \mathbf{b})$.
+
+Finally, suppose $d = |\mathbf{b} - \mathbf{a}|$ exists. The path $(\mathbf{a}, \mathbf{b})$ has length $d$. Let $P \neq (\mathbf{a}, \mathbf{b})$ be a path from $\mathbf{a}$ to $\mathbf{b}$ that has a length and no redundant points. By (i), $L \geq d$. If $L = d$, then $L^2 = d^2 = \|\mathbf{b} - \mathbf{a}\|^2$, and (ii) would give $P = (\mathbf{a}, \mathbf{b})$. Hence $L > d$.
+\end{proof}
+
+The proof shows where the extra length comes from. By \eqref{eq:gap}, each pair of steps $i, j$ contributes $\ell_i \ell_j - \mathbf{v}_i \cdot \mathbf{v}_j \geq 0$ to $L^2 - \|\mathbf{b} - \mathbf{a}\|^2$. This contribution is zero exactly when the two steps point in the same direction.
+
+\section{When There Is No Shortest Path}\label{sec:noshortest}
+
+Theorem~\ref{thm:main} says nothing about a shortest path when $\mathbf{b} - \mathbf{a}$ has no length in $\mathbb{F}$ (which forces $\mathbf{b} \neq \mathbf{a}$, since $\mathbf{0}$ has length $0$). The following example shows that in this case a shortest path need not exist.
+
+\begin{proposition}\label{prop:noshortest}
+In $\mathbb{Q}^2$, let $\mathbf{a} = (0, 0)$ and $\mathbf{b} = (1, 1)$. For every path $P$ from $\mathbf{a}$ to $\mathbf{b}$ that has a length, there is another such path $Q$ with $L(Q) < L(P)$. In particular, there is no shortest path from $\mathbf{a}$ to $\mathbf{b}$.
+\end{proposition}
+\begin{proof}
+\emph{Step 1: no rational number squares to $2$.} Suppose $(p/q)^2 = 2$ with $p, q$ positive integers and $q$ as small as possible. Then $p^2 = 2q^2$, so $p$ is even, say $p = 2s$. Then $q^2 = 2s^2$, so $q$ is even too, and $(s/(q/2))^2 = 2$ with a smaller denominator, a contradiction.
+
+\emph{Step 2: every path is longer than $\sqrt{2}$, in the sense that $L(P)^2 > 2$.} Since $\|\mathbf{b} - \mathbf{a}\|^2 = 2$, Theorem~\ref{thm:main}(i) gives $L(P)^2 \geq 2$. By Step 1, $L(P)^2 \neq 2$. Hence $\varepsilon = L(P)^2 - 2$ is a positive rational number.
+
+\emph{Step 3: a family of two-step paths.} For a rational number $t$ with $0 < t < 1$, put $D = 1 + 2t - t^2$. Then $D - 1 = t(2 - t) > 0$, so $D > 1$. Let
+\begin{equation}
+    \mathbf{c} = \Bigl( \frac{1 - t^2}{D}, \frac{2t}{D} \Bigr), \qquad Q_t = (\mathbf{a}, \mathbf{c}, \mathbf{b}).
+\end{equation}
+The first step is $\mathbf{c} - \mathbf{a} = \mathbf{c}$. Its squared length is $\bigl((1 - t^2)^2 + 4t^2\bigr)/D^2 = (1 + t^2)^2/D^2$, so it has length $(1 + t^2)/D$. The second step is
+\begin{equation}
+    \mathbf{b} - \mathbf{c} = \Bigl( \frac{D - 1 + t^2}{D}, \frac{D - 2t}{D} \Bigr) = \Bigl( \frac{2t}{D}, \frac{1 - t^2}{D} \Bigr),
+\end{equation}
+which has the same length. Hence $Q_t$ has length $L(Q_t) = 2(1 + t^2)/D$. A direct expansion shows that $2(1+t^2)^2 - D^2 = (t^2 + 2t - 1)^2$, and therefore
+\begin{equation}\label{eq:Qt}
+    L(Q_t)^2 - 2 = \frac{4(1 + t^2)^2 - 2D^2}{D^2} = \frac{2\bigl((t+1)^2 - 2\bigr)^2}{D^2} \leq 2\bigl((t+1)^2 - 2\bigr)^2,
+\end{equation}
+using $t^2 + 2t - 1 = (t+1)^2 - 2$ and $D > 1$.
+
+\emph{Step 4: rational numbers whose squares are close to $2$.} Define positive integers by $p_1 = 3$, $r_1 = 2$, and $p_{m+1} = p_m + 2r_m$, $r_{m+1} = p_m + r_m$. Then
+\begin{equation}
+    p_{m+1}^2 - 2r_{m+1}^2 = (p_m^2 + 4p_m r_m + 4r_m^2) - 2(p_m^2 + 2p_m r_m + r_m^2) = -(p_m^2 - 2r_m^2),
+\end{equation}
+and $p_1^2 - 2r_1^2 = 1$, so $p_m^2 - 2r_m^2 = \pm 1$ for every $m$. Also $r_m < p_m < 2r_m$ for every $m$, by induction: it holds for $m = 1$, and if it holds for $m$, then $r_{m+1} = p_m + r_m < p_m + 2r_m = p_{m+1}$ and $p_{m+1} = p_m + 2r_m < 2p_m + 2r_m = 2r_{m+1}$. Finally, $r_{m+1} = p_m + r_m \geq r_m + 1$, so $r_m \geq m$. Setting $q_m = p_m / r_m$, we have $1 < q_m < 2$ and
+\begin{equation}
+    \bigl|q_m^2 - 2\bigr| = \frac{|p_m^2 - 2r_m^2|}{r_m^2} = \frac{1}{r_m^2} \leq \frac{1}{m}.
+\end{equation}
+
+\emph{Step 5: conclusion.} Choose an integer $m > 2/\varepsilon$, and let $t = q_m - 1$, so that $0 < t < 1$. By \eqref{eq:Qt} and Step 4,
+\begin{equation}
+    L(Q_t)^2 - 2 \leq 2\bigl(q_m^2 - 2\bigr)^2 \leq \frac{2}{m^2} \leq \frac{2}{m} < \varepsilon = L(P)^2 - 2.
+\end{equation}
+So $L(Q_t)^2 < L(P)^2$. Both lengths are non-negative, so $L(Q_t) < L(P)$ by Lemma~\ref{lem:order}(f). Take $Q = Q_t$.
+\end{proof}
+
+For instance, $t = 1/2$ gives the path $(0,0) \to (3/7, 4/7) \to (1,1)$ of length $10/7 \approx 1.4286$, and $t = 2/5$ gives $(0,0) \to (21/41, 20/41) \to (1,1)$ of length $58/41 \approx 1.4146$. These lengths approach $\sqrt{2} \approx 1.4142$ but never reach it. Thus the statement ``the shortest path is a straight line'' requires the straight line to have a length in $\mathbb{F}$. This is automatic in $\mathbb{R}^n$, but not in $\mathbb{Q}^n$.
+
+\section{Conclusion}
+
+Using only the ordered-field axioms, we proved that the straight line is the unique shortest path between two points (Theorem~\ref{thm:main}), provided it has a length in $\mathbb{F}$. Proposition~\ref{prop:noshortest} shows this condition is needed.
+
+\end{document}

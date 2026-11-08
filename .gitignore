@@ -179,3 +179,13 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+*.out
+*.aux
+*.toc
+
+# Lean build output (Mathlib cache, ~5GB)
+.lake/
+
+# opencode local tool state
+.opencode/
