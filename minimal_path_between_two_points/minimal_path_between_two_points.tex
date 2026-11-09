@@ -30,7 +30,7 @@
 \tableofcontents
 
 \begin{abstract}
-Let $\mathbb{F}$ be any number system satisfying the axioms of an ordered field. We prove that in $\mathbb{F}^n$, a path made of straight steps from $\mathbf{a}$ to $\mathbf{b}$ is never shorter than the straight line from $\mathbf{a}$ to $\mathbf{b}$, and is exactly as short only if it is that straight line.
+Let $\mathbb{F}$ be any number system satisfying the axioms of an ordered field. We prove that in $\mathbb{F}^n$, when both a path made of straight steps from $\mathbf{a}$ to $\mathbf{b}$ and the straight line from $\mathbf{a}$ to $\mathbf{b}$ have lengths in $\mathbb{F}$, the path is never shorter than the straight line, and is exactly as short only if it is that straight line. Such lengths, being square roots of sums of squares, need not exist in a general ordered field.
 \end{abstract}
 
 \section{Introduction}
@@ -204,7 +204,7 @@ Now $2\alpha\beta > 0$ by Lemma~\ref{lem:order}(c),(d), so $(2\alpha\beta)^{-1} 
 by Lemma~\ref{lem:order}(d) and Lemma~\ref{lem:norm}, and so $\mathbf{x} \cdot \mathbf{y} \leq \alpha\beta$ by Lemma~\ref{lem:order}(a). Equality holds \textbf{iff} $\|\beta \mathbf{x} - \alpha \mathbf{y}\|^2 = 0$ (Proposition~\ref{prop:nzd}), that is, \textbf{iff} $\beta \mathbf{x} = \alpha \mathbf{y}$ (Lemma~\ref{lem:norm}).
 \end{proof}
 
-The usual proof of this inequality divides by $|\mathbf{x}|$ and $|\mathbf{y}|$ and takes square roots. The proof above only multiplies by lengths that are assumed to exist.
+Some proofs of this inequality over $\mathbb{R}$ divide by $|\mathbf{x}|$ and $|\mathbf{y}|$ and take square roots, and square roots need not exist in $\mathbb{F}$. The proof above is the familiar expansion of $\|\beta\mathbf{x} - \alpha\mathbf{y}\|^2$; we include it not as a new technique but because it takes no square roots, multiplying only by lengths that are assumed to exist.
 
 \section{The Main Theorem}
 
@@ -256,7 +256,7 @@ This contradicts the assumption that $P$ has no redundant points. Hence $k = 1$,
 Finally, suppose $d = |\mathbf{b} - \mathbf{a}|$ exists. The path $(\mathbf{a}, \mathbf{b})$ has length $d$. Let $P \neq (\mathbf{a}, \mathbf{b})$ be a path from $\mathbf{a}$ to $\mathbf{b}$ that has a length and no redundant points. By (i), $L \geq d$. If $L = d$, then $L^2 = d^2 = \|\mathbf{b} - \mathbf{a}\|^2$, and (ii) would give $P = (\mathbf{a}, \mathbf{b})$. Hence $L > d$.
 \end{proof}
 
-The proof shows where the extra length comes from. By \eqref{eq:gap}, each pair of steps $i, j$ contributes $\ell_i \ell_j - \mathbf{v}_i \cdot \mathbf{v}_j \geq 0$ to $L^2 - \|\mathbf{b} - \mathbf{a}\|^2$. This contribution is zero exactly when the two steps point in the same direction.
+The proof shows where the extra length comes from. By \eqref{eq:gap}, each pair of steps $i, j$ contributes $\ell_i \ell_j - \mathbf{v}_i \cdot \mathbf{v}_j \geq 0$ to $L^2 - \|\mathbf{b} - \mathbf{a}\|^2$. By the equality case of Lemma~\ref{lem:cs}, this contribution is zero exactly when $\ell_j \mathbf{v}_i = \ell_i \mathbf{v}_j$: for steps of positive length this says that the two steps point in the same direction, and if either step has length $0$ it holds automatically.
 
 \section{When There Is No Shortest Path}\label{sec:noshortest}
 
@@ -300,10 +300,10 @@ and $p_1^2 - 2r_1^2 = 1$, so $p_m^2 - 2r_m^2 = \pm 1$ for every $m$. Also $r_m <
 So $L(Q_t)^2 < L(P)^2$. Both lengths are non-negative, so $L(Q_t) < L(P)$ by Lemma~\ref{lem:order}(f). Take $Q = Q_t$.
 \end{proof}
 
-For instance, $t = 1/2$ gives the path $(0,0) \to (3/7, 4/7) \to (1,1)$ of length $10/7 \approx 1.4286$, and $t = 2/5$ gives $(0,0) \to (21/41, 20/41) \to (1,1)$ of length $58/41 \approx 1.4146$. These lengths approach $\sqrt{2} \approx 1.4142$ but never reach it. Thus the statement ``the shortest path is a straight line'' requires the straight line to have a length in $\mathbb{F}$. This is automatic in $\mathbb{R}^n$, but not in $\mathbb{Q}^n$.
+For instance, $t = 1/2$ gives the path $(0,0) \to (3/7, 4/7) \to (1,1)$ of length $10/7 \approx 1.4286$, and $t = 2/5$ gives $(0,0) \to (21/41, 20/41) \to (1,1)$ of length $58/41 \approx 1.4146$. These lengths approach $\sqrt{2} \approx 1.4142$ but never reach it. Thus the statement ``the shortest path is a straight line'' requires the straight line to have a length in $\mathbb{F}$. This is automatic in $\mathbb{R}^n$. It is also automatic in $\mathbb{Q}^1$, where every vector has a length, namely its absolute value; but for $n \geq 2$ it is not automatic in $\mathbb{Q}^n$, since $(1, 1, 0, \dots, 0)$ has no length in $\mathbb{Q}$.
 
 \section{Conclusion}
 
-Using only the ordered-field axioms, we proved that the straight line is the unique shortest path between two points (Theorem~\ref{thm:main}), provided it has a length in $\mathbb{F}$. Proposition~\ref{prop:noshortest} shows this condition is needed.
+Using only the ordered-field axioms, we proved that the straight line is the unique shortest path between two points (Theorem~\ref{thm:main}), provided it has a length in $\mathbb{F}$. Proposition~\ref{prop:noshortest} shows, by an example in $\mathbb{Q}^2$, that this condition cannot simply be dropped: there may be no shortest path at all.
 
 \end{document}

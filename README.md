@@ -20,8 +20,9 @@ and in exact fraction arithmetic.
 - **Key lemma.** Cauchy–Schwarz, `x · y ≤ |x| |y|`, proved without taking
   square roots, including when equality holds.
 - **Main theorem.** If every step of a path from **a** to **b** has a length,
-  the path is at least as long as the straight line. With no redundant points,
-  it equals the straight line's length only if it is the straight line.
+  and the straight line from **a** to **b** does too, the path is at least as
+  long as the straight line. With no redundant points, it equals the straight
+  line's length only if it is the straight line.
 - **Why lengths in the field matter.** In ℚ², going from (0,0) to (1,1) has no
   shortest path. The straight line would have length √2 ∉ ℚ, and rational
   two-step paths get as close to √2 as you like.
